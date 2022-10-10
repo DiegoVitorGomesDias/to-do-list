@@ -1,0 +1,253 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+a
+{
+    text-decoration: none;
+    color: white;
+}
+
+body
+{
+    font-family: Arial, Helvetica, sans-serif;
+    background: black;
+    overflow-x: hidden;
+}
+
+header
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    padding: 15px 15px;
+    background: #000;
+    color: white;
+    border-bottom: solid 1px white;
+}   
+
+    header > h1
+    {
+        font-size: 1.5em;
+        margin: 0px 0px 0px 30vw;
+    }
+
+    header > a > img
+    {
+        width: 60px;
+    }
+
+
+main
+{
+    margin: 30px 0px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    color: white;
+    padding: 50px;
+    width: 60vw;
+    margin: 0px auto;
+    border-radius: 5px;
+}
+
+    main > h1
+    {
+        margin-bottom: 15px;        
+        font-size: clamp(1.5em, 3vw, 3em);
+        text-align: center;
+    }
+
+section#input
+{
+    display: flex;
+    flex-direction: row;    
+    width: 100%;
+}
+
+section#input > input
+{    
+    font-size: 1.3em;
+    background-color: transparent;
+    color: white;
+    margin: 5px 0px;
+    padding: 5px;
+    border: solid 1px white;    
+    margin-bottom: 30px;    
+    border-collapse: collapse;
+}
+
+    section#input > input#input-tarefa
+    {
+        text-indent: 5px;
+        border-radius: 5px 0px 0px 5px;        
+        width: 60%;
+    }
+
+    section#input > input#adc-tarefa
+    {
+        width: 40%;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 0px 5px 5px 0px;
+        border-left: none;
+    }
+
+section#tarefas
+{
+    width: 100%;
+}
+
+    section#tarefas > .tarefas-list
+    {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: space-between;
+        font-size: 1.4em;
+        padding: 15px;
+        border-radius: 10px;
+        background-color: #ffffff0f;        
+        margin-bottom: 15px;
+    }
+
+    section#tarefas > div.tarefas-list > input.tarefa-concluida
+    {
+        background-color: aliceblue;
+        border: solid 1px red;
+        font-size: 50px;        
+        transform: scale(2.5);
+        padding: 5px;     
+        margin: 15px;   
+        cursor: pointer;
+    }
+
+    section#tarefas > div.tarefas-list > input.excluir-tarefa
+    {
+        height: 35px;
+        width: 50px;
+        border-radius: 5px;
+        background-color: red;
+        color: #fff;
+        border: none;
+        padding: 5px;
+        margin: 1px;
+        margin-left: 15px;
+        cursor: pointer;
+    }
+
+    section#tarefas > div.tarefas-list > label.tarefa-text
+    {
+        text-align: center;
+        font-weight: normal;
+        font-size: 1em;
+        line-break: strict;
+        word-break: break-word;
+        min-height: 1em;
+        cursor: text;
+    }
+
+    section#tarefas > div.tarefas-list > label.tarefa-text::after
+    {
+        content: "";
+        display: block;
+        text-align: center;
+        width: 100%;
+        height: 1px;
+        background-color: white;
+        border-radius: 50%;
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+
+    section#tarefas > div.tarefas-list > label.tarefa-text:focus
+    {
+        outline: none;
+    }
+
+    section#tarefas > div.tarefas-list > label.tarefa-text:focus::after
+    {
+        content: "";
+        display: block;
+        text-align: center;
+        width: 100%;
+        height: 1px;
+        background-color: white;
+        border-radius: 50%;
+        transition: all .3s ease-in-out;
+        transform: scaleX(1);
+    }
+
+    section#tarefas > .tarefa-concluida
+    {
+        background-color: #57575725;
+        opacity: 0.3;
+        color: gray;
+    }
+
+    section#tarefas > .tarefa-concluida > label.tarefa-text
+    {
+        text-decoration: line-through;
+    }
+
+    section#tarefas > div.tarefa-concluida > input.excluir-tarefa
+    {
+        opacity: 0.5;
+    }    
+
+@media (max-width: 720px) 
+{
+    main
+    {
+        width: 80vw;        
+    }
+}
+
+@media (max-width: 600px) 
+{
+    header
+    {
+        padding: 5px 0;
+        margin: 0;
+    }
+
+    header > h1
+    {
+        margin: 0 0 0 10vw;
+    }
+
+    main
+    {
+        width: 90vw;
+        margin: 0;
+        padding-left: 5vw;
+        padding-right: 5vw;
+    }
+
+    header > h1
+    {
+        font-size: 1em;
+    }
+
+    #input-tarefa::placeholder
+    {
+        font-size: 0.8em;
+        text-align: center;
+        vertical-align: middle;
+        text-indent: 0px;
+    }
+
+    section#tarefas > div.tarefas-list > label.tarefa-text
+    {
+        font-size: 0.8em;
+    }
+}
