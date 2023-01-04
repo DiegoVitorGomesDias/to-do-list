@@ -22,7 +22,7 @@ header
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     align-self: center;
     padding: 15px 15px;
@@ -31,10 +31,15 @@ header
     border-bottom: solid 1px white;
 }   
 
-    header > h1
+    header > span > a
     {
-        font-size: 1.5em;
-        margin: 0px 0px 0px 30vw;
+        font-size: 1.3em;
+        font-size: clamp(0.875rem, 0.792rem + 0.4425vw, 1.5rem);
+        padding: 1vh 2vw;
+        margin: 1vw;
+        color: chartreuse;
+        outline: 1px solid chartreuse;
+        border-radius: 15px;
     }
 
     header > a > img
@@ -220,9 +225,9 @@ section#tarefas
         margin: 0;
     }
 
-    header > h1
+    header > span > a
     {
-        margin: 0 0 0 10vw;
+        padding: 1vh 3vw;
     }
 
     main

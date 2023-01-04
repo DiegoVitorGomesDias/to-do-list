@@ -2,7 +2,7 @@ const connection = require("./connection");
 
 const currentDate = () =>
 {
-    const dateUTC = new Date(Date.now()).toUTCString();
+    const dateUTC = new Date(Date.now()).toLocaleString("EU");
     return dateUTC;
 }
 

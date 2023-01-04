@@ -11,7 +11,7 @@ const getAllTasks = async () =>
     )
     .then((res) => res.json())
     .then((date) => {return date})
-    .catch (res => { console.log(res); });
+    .catch (res => {  });
 
     return await result;
 }
@@ -29,7 +29,7 @@ const addTask = async(title) =>
     )
     .then((res) => res.json())
     .then((date) => { return date })
-    .catch (res => { console.log(res); });
+    .catch (res => {  });
 
     return await result;
 }
@@ -43,10 +43,10 @@ const updateTask = async(id, title, status) =>
             method: "PUT", 
             headers: { 'Content-Type': 'application/json', },
             body: JSON.stringify(
-                {
-                    "title": `${title.trim()}`,
-                    "status": `${status.trim()}`
-                }) 
+            {
+                "title": `${title.trim()}`,
+                "status": `${status.trim()}`
+            }) 
         }
     )
     return result;

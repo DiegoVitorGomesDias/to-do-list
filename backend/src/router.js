@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
+
 const tasksController = require("./controllers/tasksController");
 const tasksMiddleware = require("./middlewares/tasksMiddlewares");
 
 
-router.use(function(req, res, next) {
+router.use((_req, res, next) => 
+{
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "*");
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');

@@ -4,6 +4,7 @@ const $btn_adc = document.getElementById("adc-tarefa");
 const $add_txt_tarefa = document.getElementById("input-tarefa");
 const $tarefas = document.getElementById("tarefas");
 
+const tasks = await mySQL.getAllTasks() || JSON.parse(localStorage.getItem("tasks")) || [];
 let $tarefas_title = [];
 
 const updateTask = async (task) =>
@@ -14,9 +15,8 @@ const updateTask = async (task) =>
     const title = task.innerText;
     const status = task.parentNode.children[0].checked ? "closed" : "open";
 
-    console.log("id: " + id + ", title: " + title + ", status: " + status);
-
-    if (title != false) await mySQL.updateTask(id, title, status);
+    tasks[id] = { title, status };
+    if (title != false) mySQL.updateTask(id, title, status);
 }
 
 const mapTasksChange = () =>
@@ -32,23 +32,21 @@ const mapTasksChange = () =>
 }
 
 const mapTasks = async () =>
-{
-    let tasks = await mySQL.getAllTasks();
-    tasks = tasks.sort( ({status: a}, {status: b}) =>  
+{    
+    $tarefas.innerHTML = "";
+
+    tasks.sort( ({status: a}, {status: b}) =>  
     {
         if (a < b) return -1;
         if (a = b) return 0;
         if (a > b) return 1;
-    })
-    
-    $tarefas.innerHTML = "";
-    await tasks.map(e =>
+    }).map((e,i) =>
     {
         $tarefas.insertAdjacentHTML("afterbegin", 
         `
             <div 
                 class="tarefas-list ${ e.status === "closed" ? "tarefa-concluida" : "" }" 
-                id="`+e.id +`" 
+                id="`+(e.id || i) +`" 
             >
 
                 <input type="checkbox" 
@@ -70,44 +68,39 @@ const mapTasks = async () =>
     mapTasksChange();
 };
 
-const adctarefa = async () =>
+const adctarefa = () =>
 {
-    if ($add_txt_tarefa.value !== "") 
+    if ( $add_txt_tarefa.value.trim().length > 1 ) 
     {
         const txt = $add_txt_tarefa.value;
         $add_txt_tarefa.value = "";
 
-        await mySQL.addTask(txt);        
+        tasks.push({ title: txt, status: "open" })
+        mySQL.addTask(txt).then( (values) => tasks.map( (e, i) => values[i] ) ).catch( (err) => {} );
         mapTasks();
     }
 }
 
-$btn_adc.addEventListener("click", adctarefa());
+$btn_adc.addEventListener("click", () => adctarefa());
 
 $add_txt_tarefa.addEventListener("keypress", (infos_event) =>
 {
     infos_event.preventDefault();
-    if (infos_event.key === "Enter") {
-        adctarefa();
-    }
-    else if($add_txt_tarefa.value.length < 90)
-    {
-        $add_txt_tarefa.value += infos_event.key;
-    }
+    if (infos_event.key === "Enter") adctarefa();
+    else if($add_txt_tarefa.value.length < 90) $add_txt_tarefa.value += infos_event.key;
 });  
 
 $tarefas.addEventListener("click", (infos_event) =>
 {
     const $click = infos_event.target;
     const id = $click.parentNode.id.trim();
-    const title = $click.parentNode.children[1].textContent;
 
     const $label = $click.children[1] ? $click.children[1] : $click.parentNode.children[1];
     
     if ($click.children[1] ? $label.nodeName ===  "LABEL" : false) { $click.children[1].focus(); }
     else if ($click.children[1]) $click.children[1].blur();
     
-    if ($click.value == "on")
+    if ($click.value === "on")
     {
         if ($click.hasAttribute("checked"))
         {
@@ -120,7 +113,7 @@ $tarefas.addEventListener("click", (infos_event) =>
 
             updateTask($label);
         }
-        else
+        else if(!$click.hasAttribute("checked"))
         {
             $click.setAttribute("checked", "checked");
             $click.parentNode.classList.add("tarefa-concluida");
@@ -133,12 +126,14 @@ $tarefas.addEventListener("click", (infos_event) =>
         }
         mapTasksChange()
     }
-    else if ($click.value == "Excluir")
+    else if ($click.value === "Excluir")
     {
         $click.parentNode.outerHTML = "";
+        tasks.splice(id, 1).map( (e,i) => e.id = i )
         mySQL.deleteTask(id);
     }
 })
 
 window.addEventListener("loadstart", mapTasks());
+window.addEventListener("beforeunload", () => localStorage.setItem("tasks", JSON.stringify(tasks)))
 $add_txt_tarefa.focus();
